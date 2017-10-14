@@ -23,6 +23,6 @@ export default {
 <style lang="scss">
 .md-theme-default.md-card {
   background-color: white;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 </style>

@@ -32,6 +32,7 @@ export default {
 #main {
   min-height: 100%;
   padding: 20px 20px 56px;
+  background: #F6F6F6;
 
   .md-theme-default.md-bottom-bar.md-fixed {
     background: white;
@@ -39,6 +40,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 10;
   }
 
   .md-bottom-bar-item {

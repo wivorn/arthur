@@ -1,8 +1,12 @@
 <template>
   <div id="shop">
     <h1>Shop</h1>
-    This is a shop
-    <md-card></md-card>
+    <md-card v-for="card in this.$root.products" >
+      <md-card-header>
+        <md-card-header-text class="md-title">{{ card.name }}</md-card-header-text>
+      </md-card-header>
+      <md-card-content>{{ card.description }}</md-card-content>
+    </md-card>
   </div>
 </template>
 
