@@ -3,7 +3,12 @@
     <header>
       <h1>Settings</h1>
     </header>
-    This is a settings page
+    <md-tabs md-fixed class="md-transparent">
+      <md-tab id="account" md-label="Account">
+      </md-tab>
+      <md-tab id="privacy" md-label="Privacy">
+      </md-tab>
+    </md-tabs>
   </div>
 </template>
 
