@@ -11,8 +11,12 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import '../node_modules/vue-material/dist/vue-material.css';
+
 body {
   margin: 0;
+  height: 100%;
 }
 
 #app {
@@ -20,5 +24,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background: #F6F6F6;
+  height: 100%;
+
+  button {
+    cursor: pointer;
+  }
 }
 </style>
