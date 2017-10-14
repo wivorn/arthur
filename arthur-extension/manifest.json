@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "ArthurExt",
+  "description": "This extension allows users with Arthritis to recommend Amazon products to others with the same condition.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Check recommended products"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*.amazon.com/*", "https://*.amazon.com/*", "http://*.amazon.ca/*", "https://*.amazon.ca/*"],
+      "js": ["extension.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["bootstrap.js"],
+    "persistent": false
+  }
+}
