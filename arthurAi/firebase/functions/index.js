@@ -28,9 +28,9 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     'input.welcome': () => {
       // Use the Actions on Google lib to respond to Google requests; for other requests use JSON
       if (requestSource === googleAssistantRequest) {
-        sendGoogleResponse('Hello, Welcome to my Dialogflow agent!'); // Send simple response to user
+        sendGoogleResponse('aHello, Welcome to my Dialogflow agent!'); // Send simple response to user
       } else {
-        sendResponse('Hello, Welcome to my Dialogflow agent!'); // Send simple response to user
+        sendResponse('aHello, Welcome to my Dialogflow agent!'); // Send simple response to user
       }
     },
     // The default fallback intent has been matched, try to recover (https://dialogflow.com/docs/intents#fallback_intents)
@@ -49,16 +49,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         let responseToUser = {
           googleRichResponse: googleRichResponse, // Optional, uncomment to enable
           //googleOutputContexts: ['weather', 2, { ['city']: 'rome' }], // Optional, uncomment to enable
-          speech: 'This message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
-          displayText: 'This is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
+          speech: 'aThis message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
+          displayText: 'aThis is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
         };
         sendGoogleResponse(responseToUser);
       } else {
         let responseToUser = {
           //richResponses: richResponses, // Optional, uncomment to enable
           //outputContexts: [{'name': 'weather', 'lifespan': 2, 'parameters': {'city': 'Rome'}}], // Optional, uncomment to enable
-          speech: 'This message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
-          displayText: 'This is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
+          speech: 'aThis message is from Dialogflow\'s Cloud Functions for Firebase editor!', // spoken response
+          displayText: 'aThis is from Dialogflow\'s Cloud Functions for Firebase editor! :-)' // displayed response
         };
         sendResponse(responseToUser);
       }
