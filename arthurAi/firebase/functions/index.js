@@ -151,24 +151,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log(resource);
     // build rich response
     let serviceResponse = app.buildRichResponse()
-      .addSimpleResponse('This is the first simple response for Google Assistant')
+      .addSimpleResponse(`I found you ${resource.name}`)
       .addSuggestions(
         ['Suggestion Chip', 'Another Suggestion Chip'])
         // Create a basic card and add it to the rich response
-      .addBasicCard(app.buildBasicCard(`This is a basic card.  Text in a
-    basic card can include "quotes" and most other unicode characters
-    including emoji 📱.  Basic cards also support some markdown
-    formatting like *emphasis* or _italics_, **strong** or __bold__,
-    and ***bold itallic*** or ___strong emphasis___ as well as other things
-    like line  \nbreaks`) // Note the two spaces before '\n' required for a
+      .addBasicCard(app.buildBasicCard(resource.description) // Note the two spaces before '\n' required for a
                             // line break to be rendered in the card
-        .setSubtitle('This is a subtitle')
-        .setTitle('Title: this is a title')
-        .addButton('This is a button', 'https://assistant.google.com/')
-        .setImage('https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
-          'Image alternate text'))
-      .addSimpleResponse({ speech: 'This is another simple response',
-        displayText: 'This is the another simple response 💁' });
+        .setTitle(resource.name)
+        .addButton('Visit', resource.url)
+        .setImage(resource.imgUrl, 'Photo of physio'));
+
     let responseToUser = { 
       googleRichResponse: serviceResponse,
       speech: "(FallBack) Here is a reccommendation ",
