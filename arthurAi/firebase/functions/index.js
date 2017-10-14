@@ -1,6 +1,7 @@
 'use strict';
 
 const axios = require('axios');
+const _ = require('lodash');
 
 const functions = require('firebase-functions'); // Cloud Functions for Firebase library
 const DialogflowApp = require('actions-on-google').DialogflowApp; // Google Assistant helper library
@@ -146,7 +147,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     // find the service-category
 
     // find the first data object with that category
-
+    const resource = _.find(data, (service) => _.includes(service.category, parameters['service-category']) );
+    console.log(resource);
     // build rich response
     let serviceResponse = app.buildRichResponse()
       .addSimpleResponse('This is the first simple response for Google Assistant')
