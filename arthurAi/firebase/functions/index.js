@@ -1,9 +1,14 @@
 'use strict';
 
+const axios = require('axios');
+
 const functions = require('firebase-functions'); // Cloud Functions for Firebase library
 const DialogflowApp = require('actions-on-google').DialogflowApp; // Google Assistant helper library
 
 const googleAssistantRequest = 'google'; // Constant to identify Google Assistant requests
+
+const FIREBASE_ROOT_URL = 'https://newagent-cb752.firebaseio.com';
+const FIREBASE_SERVICES_URL = `${FIREBASE_ROOT_URL}/resources/services.json`;
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
   console.log('Request headers: ' + JSON.stringify(request.headers));
@@ -42,6 +47,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         sendResponse('I\'m having trouble, can you try that again?'); // Send simple response to user
       }
     },
+    'find-service': () => {
+      if (requestSource === googleAssistantRequest) {
+        axios.get(FIREBASE_SERVICES_URL)
+          .then((resp) => handleFindService(resp.data, parameters))
+          .catch((err) => sendResponse('error'));
+      } else {
+        sendResponse('You are not using google assistant.'); 
+      }
+    },
     // Default handler for unknown or undefined actions
     'default': () => {
       // Use the Actions on Google lib to respond to Google requests; for other requests use JSON
@@ -70,6 +84,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     action = 'default';
   }
 
+  console.log("try to find action hanlder");
   // Run the proper handler function to handle the request from Dialogflow
   actionHandlers[action]();
 
@@ -122,6 +137,43 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
       response.json(responseJson); // Send response to Dialogflow
     }
+  }
+
+  function handleFindService(data, parameters) {
+    console.log(data);
+    console.log(parameters);
+
+    // find the service-category
+
+    // find the first data object with that category
+
+    // build rich response
+    let serviceResponse = app.buildRichResponse()
+      .addSimpleResponse('This is the first simple response for Google Assistant')
+      .addSuggestions(
+        ['Suggestion Chip', 'Another Suggestion Chip'])
+        // Create a basic card and add it to the rich response
+      .addBasicCard(app.buildBasicCard(`This is a basic card.  Text in a
+    basic card can include "quotes" and most other unicode characters
+    including emoji 📱.  Basic cards also support some markdown
+    formatting like *emphasis* or _italics_, **strong** or __bold__,
+    and ***bold itallic*** or ___strong emphasis___ as well as other things
+    like line  \nbreaks`) // Note the two spaces before '\n' required for a
+                            // line break to be rendered in the card
+        .setSubtitle('This is a subtitle')
+        .setTitle('Title: this is a title')
+        .addButton('This is a button', 'https://assistant.google.com/')
+        .setImage('https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
+          'Image alternate text'))
+      .addSimpleResponse({ speech: 'This is another simple response',
+        displayText: 'This is the another simple response 💁' });
+    let responseToUser = { 
+      googleRichResponse: serviceResponse,
+      speech: "(FallBack) Here is a reccommendation ",
+      displayText: "(FallBack) Here is a reccommendation "
+  
+    }
+    sendGoogleResponse(responseToUser);
   }
 });
 
