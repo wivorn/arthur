@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   name: 'Login',
   data () {
@@ -51,6 +53,7 @@ export default {
   methods: {
     login () {
       console.log('login')
+      router.push('you')
     },
     signup () {
       console.log('signup')
@@ -84,6 +87,13 @@ export default {
     background: rgba(255,255,255,0.85);
     padding: 40px;
     border-radius: 4px;
+
+    @media screen and (max-width: 648px) {
+      max-width: 100%;
+      min-height: 100%;
+      background: rgba(255,255,255,0.5);
+      background-blend-mode: multiply;
+    }
   }
 
   .logo {
@@ -101,14 +111,16 @@ export default {
 
   .md-input-container {
     display: block;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     margin: 0 auto 16px;
   }
 
   .button--login {
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     height: 45px;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
   }
 
   .button--signup {
