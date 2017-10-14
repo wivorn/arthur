@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "actions-on-google": "^1.5.x",
+    "apiai": "^4.0.3",
+    "axios": "^0.16.2",
     "firebase-admin": "^4.2.1",
     "firebase-functions": "^0.5.7",
-    "apiai": "^4.0.3"
+    "lodash": "^4.17.4"
   }
 }
