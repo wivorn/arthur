@@ -10,6 +10,8 @@ const googleAssistantRequest = 'google'; // Constant to identify Google Assistan
 
 const FIREBASE_ROOT_URL = 'https://newagent-cb752.firebaseio.com';
 const FIREBASE_SERVICES_URL = `${FIREBASE_ROOT_URL}/resources/services.json`;
+const FIREBASE_KNOWLEDGE_URL = `${FIREBASE_ROOT_URL}/resources/knowledge.json`;
+const FIREBASE_USER_URL = `${FIREBASE_ROOT_URL}/users.json`;
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
   console.log('Request headers: ' + JSON.stringify(request.headers));
@@ -52,6 +54,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_SERVICES_URL)
           .then((resp) => handleFindService(resp.data, parameters))
+          .catch((err) => sendResponse('error'));
+      } else {
+        sendResponse('You are not using google assistant.'); 
+      }
+    },
+    'find-knowledge': () => {
+      if (requestSource === googleAssistantRequest) {
+        axios.get(FIREBASE_KNOWLEDGE_URL)
+          .then((resp) => handleFindKnowledge(resp.data, parameters))
           .catch((err) => sendResponse('error'));
       } else {
         sendResponse('You are not using google assistant.'); 
@@ -141,28 +152,42 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   }
 
   function handleFindService(data, parameters) {
-    console.log(data);
-    console.log(parameters);
-
-    // find the service-category
-
     // find the first data object with that category
     const resource = _.find(data, (service) => _.includes(service.category, parameters['service-category']) );
-    console.log(resource);
+
     // build rich response
     let serviceResponse = app.buildRichResponse()
       .addSimpleResponse(`I found you ${resource.name}`)
       .addSuggestions(
         ['Suggestion Chip', 'Another Suggestion Chip'])
-        // Create a basic card and add it to the rich response
-      .addBasicCard(app.buildBasicCard(resource.description) // Note the two spaces before '\n' required for a
-                            // line break to be rendered in the card
+      .addBasicCard(app.buildBasicCard(resource.description) 
         .setTitle(resource.name)
         .addButton('Visit', resource.url)
         .setImage(resource.imgUrl, 'Photo of physio'));
 
     let responseToUser = { 
       googleRichResponse: serviceResponse,
+      speech: "(FallBack) Here is a reccommendation ",
+      displayText: "(FallBack) Here is a reccommendation "
+  
+    }
+    sendGoogleResponse(responseToUser);
+  }
+
+  function handleFindKnowledge(data, parameters) {
+    // find the first data object with that category
+    const resource = _.find(data, (knowledge) => _.includes(knowledge.category, parameters['knowledge-category']) );
+
+    // build rich response
+    let knowledgeResponse = app.buildRichResponse()
+      .addSimpleResponse(`I found a ${resource.type}, it is called ${resource.name}`)
+      .addBasicCard(app.buildBasicCard(resource.description) 
+        .setTitle(resource.name)
+        .addButton('Visit', resource.url)
+        .setImage(resource.imgUrl, 'Check it out!'));
+
+    let responseToUser = { 
+      googleRichResponse: knowledgeResponse,
       speech: "(FallBack) Here is a reccommendation ",
       displayText: "(FallBack) Here is a reccommendation "
   
