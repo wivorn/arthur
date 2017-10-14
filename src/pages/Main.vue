@@ -1,6 +1,8 @@
 <template>
   <main id="main">
-    <router-view></router-view>
+    <div class="container">
+      <router-view></router-view>
+    </div>
     <md-bottom-bar>
       <md-bottom-bar-item md-icon="favorite" md-active @click="navigate('you')">You</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="school" @click="navigate('learn')">Learn</md-bottom-bar-item>
@@ -33,6 +35,11 @@ export default {
   min-height: 100%;
   padding: 20px 20px 56px;
   background: #F6F6F6;
+
+  .container {
+    max-width: 736px;
+    margin: 0 auto;
+  }
 
   .md-theme-default.md-bottom-bar.md-fixed {
     background: white;

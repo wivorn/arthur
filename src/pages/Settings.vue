@@ -1,6 +1,8 @@
 <template>
   <div id="settings">
-    <h1>Settings</h1>
+    <header>
+      <h1>Settings</h1>
+    </header>
     This is a settings page
   </div>
 </template>
