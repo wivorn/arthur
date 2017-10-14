@@ -2,6 +2,7 @@
   <div id="shop">
     <h1>Shop</h1>
     This is a shop
+    <md-card></md-card>
   </div>
 </template>
 

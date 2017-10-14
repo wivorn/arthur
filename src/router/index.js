@@ -48,6 +48,9 @@ export default new Router({
           component: Settings
         }
       ]
+    },
+    {
+      path: '*', redirect: '/login'
     }
   ]
 })

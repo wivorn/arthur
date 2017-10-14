@@ -1,7 +1,12 @@
 <template>
   <div id="learn">
     <h1>Learn</h1>
-    This one is for learning
+    <md-card v-for="card in this.$root.knowledge" >
+      <md-card-header>
+        <md-card-header-text class="md-title">{{ card.name }}</md-card-header-text>
+      </md-card-header>
+      <md-card-content>{{ card.description }}</md-card-content>
+    </md-card>
   </div>
 </template>
 
@@ -15,5 +20,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.md-theme-default.md-card {
+  background-color: white;
+  margin-bottom: 20px;
+}
 </style>
