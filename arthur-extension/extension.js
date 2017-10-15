@@ -49,12 +49,12 @@ function setButtonStatus(button, url) {
   console.log('extension.js - setButtonStatus()');
   chrome.storage.sync.get(url, (item) => {
     if (item[url] === "true") {
-      button.innerHTML = 'Unrecommend to Arthur';
+      button.innerHTML = 'Unrecommend to Arie';
       button.setAttribute('style', 'width: 100%; margin: 10px 0; background-color: rgb(200, 50, 50); color: white');
       button.setAttribute('data-value', false);
       postRecommendation(true, url);
     } else {
-      button.innerHTML = 'Recommend to Arthur';
+      button.innerHTML = 'Recommend to Arie';
       button.setAttribute('style', 'width: 100%; margin: 10px 0; background-color: rgb(240, 193, 75)');
       button.setAttribute('data-value', true);
       // postRecommendation(false, url);
@@ -66,7 +66,7 @@ function recommend() {
   console.log('extension.js - Recommend()');
   var url = window.location.toString();
   var items = {};
-  var button = document.getElementById('arthurRecommendBtn');
+  var button = document.getElementById('arieRecommendBtn');
   items[url] = button.getAttribute('data-value');
   chrome.storage.sync.set(items);
   setButtonStatus(button, url);
@@ -75,7 +75,7 @@ function recommend() {
 function addButton(sibling) {
   var url = window.location.toString();
   var button = document.createElement("button");
-  button.setAttribute('id','arthurRecommendBtn');
+  button.setAttribute('id','arieRecommendBtn');
   button.setAttribute('style', 'width: 100%; margin: 10px 0; background-color: rgb(240, 193, 75)');
   setButtonStatus(button, url);
   sibling.parentNode.insertBefore(button, sibling.nextSibling);
