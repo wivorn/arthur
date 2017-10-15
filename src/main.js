@@ -21,9 +21,9 @@ Vue.material.registerTheme('default', {
 new Vue({
   el: '#app',
   firebase: {
-    knowledge: firebase.database.ref('resources/knowledge').orderByChild('created_at'),
-    products: firebase.database.ref('resources/products').orderByChild('created_at'),
-    services: firebase.database.ref('resources/services').orderByChild('created_at')
+    knowledge: firebase.database.ref('resources/knowledge'),
+    products: firebase.database.ref('resources/products'),
+    services: firebase.database.ref('resources/services')
   },
   router,
   template: '<App/>',
