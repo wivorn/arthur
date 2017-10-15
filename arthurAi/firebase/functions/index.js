@@ -11,6 +11,7 @@ const googleAssistantRequest = 'google'; // Constant to identify Google Assistan
 const FIREBASE_ROOT_URL = 'https://newagent-cb752.firebaseio.com';
 const FIREBASE_SERVICES_URL = `${FIREBASE_ROOT_URL}/resources/services.json`;
 const FIREBASE_KNOWLEDGE_URL = `${FIREBASE_ROOT_URL}/resources/knowledge.json`;
+const FIREBASE_PRODUCTS_URL = `${FIREBASE_ROOT_URL}/resources/products.json`;
 const FIREBASE_USER_URL = `${FIREBASE_ROOT_URL}/users.json`;
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
@@ -54,7 +55,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_SERVICES_URL)
           .then((resp) => handleFindService(resp.data, parameters))
-          .catch((err) => sendResponse('error'));
+          .catch((err) => sendResponse('failed find service'));
       } else {
         sendResponse('You are not using google assistant.'); 
       }
@@ -63,7 +64,34 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_KNOWLEDGE_URL)
           .then((resp) => handleFindKnowledge(resp.data, parameters))
-          .catch((err) => sendResponse('error'));
+          .catch((err) => sendResponse('find knowledge failed'));
+      } else {
+        sendResponse('You are not using google assistant.'); 
+      }
+    },
+    'find-products': () => {
+      if (requestSource === googleAssistantRequest) {
+        axios.get(FIREBASE_PRODUCTS_URL)
+          .then((resp) => handleFindProducts(resp.data, parameters, request.body))
+          .catch((err) => sendResponse('find products failed'));
+      } else {
+        sendResponse('You are not using google assistant.'); 
+      }
+    },
+    'recent-products': () => {
+      if (requestSource === googleAssistantRequest) {
+        axios.get(FIREBASE_PRODUCTS_URL)
+          .then((resp) => handleFindRecentProduct(resp.data, parameters, request.body))
+          .catch((err) => sendResponse('recent products failed'));
+      } else {
+        sendResponse('You are not using google assistant.'); 
+      }
+    },
+    'community': () => {
+      if (requestSource === googleAssistantRequest) {
+        axios.get(FIREBASE_USER_URL)
+          .then((resp) => handleFindUser(resp.data, parameters, request.body))
+          .catch((err) => sendResponse('user url failed'));
       } else {
         sendResponse('You are not using google assistant.'); 
       }
@@ -101,7 +129,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   actionHandlers[action]();
 
   // Function to send correctly formatted Google Assistant responses to Dialogflow which are then sent to the user
-  function sendGoogleResponse (responseToUser) {
+  function sendGoogleResponse (responseToUser, withCarousel=false) {
     if (typeof responseToUser === 'string') {
       app.ask(responseToUser); // Google Assistant response
     } else {
@@ -191,6 +219,80 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       speech: "(FallBack) Here is a reccommendation ",
       displayText: "(FallBack) Here is a reccommendation "
   
+    }
+    sendGoogleResponse(responseToUser);
+  }
+
+  function handleFindProducts(data, parameters, requestBody) {
+    console.log(requestBody);
+
+    // find the first data object with that category
+    const resource = _.find(data, (product) => _.includes(product.category, parameters['product-category']) );
+
+    console.log(resource);
+    // build rich response
+    let productResponse = app.buildRichResponse()
+      .addSimpleResponse(`I found this for you. It is called ${resource.name}`)
+      .addBasicCard(app.buildBasicCard(resource.description) 
+        .setTitle(resource.name)
+        .addButton('Visit', resource.url)
+        .setImage(resource.imgUrl, 'Check it out!'));
+
+    let responseToUser = { 
+      googleRichResponse: productResponse,
+      speech: "(FallBack) Here is a reccommendation ",
+      displayText: "(FallBack) Here is a reccommendation "
+  
+    }
+    sendGoogleResponse(responseToUser);
+  }
+
+  function handleFindRecentProduct(data, parameters, requestBody) {
+    console.log(requestBody);
+
+    // find the first data object with that category
+    data = Object.keys(data).map(key => data[key]);
+    console.log('data', data);
+    const resource = data[data.length-1];
+
+    // build rich response
+    let productResponse = app.buildRichResponse()
+      .addSimpleResponse(`${resource.name} was recently reccomended!`)
+      .addBasicCard(app.buildBasicCard(resource.description) 
+        .setTitle(resource.name)
+        .addButton('Visit', resource.url)
+        .setImage(resource.imgUrl, 'Check it out!'));
+
+    let responseToUser = { 
+      googleRichResponse: productResponse,
+      speech: "(FallBack) Here is a reccommendation ",
+      displayText: "(FallBack) Here is a reccommendation "
+
+    }
+    sendGoogleResponse(responseToUser);
+  }
+
+  function handleFindUser(data, parameters, requestBody) {
+    console.log(requestBody);
+    console.log('handle user');
+    // find the first data object with that category
+    const resource = data[data.length-1];
+
+    console.log('hi');
+    console.log(resource);
+    // build rich response
+    let productResponse = app.buildRichResponse()
+      .addSimpleResponse(`${resource.name} might be able to share their experiences`)
+      .addBasicCard(app.buildBasicCard(resource.description) 
+        .setTitle(resource.name)
+        .addButton('Contact', resource.contact.url)
+        .setImage(resource.imgUrl, 'Check it out!'));
+
+    let responseToUser = { 
+      googleRichResponse: productResponse,
+      speech: "(FallBack) Here is a reccommendation ",
+      displayText: "(FallBack) Here is a reccommendation "
+
     }
     sendGoogleResponse(responseToUser);
   }
