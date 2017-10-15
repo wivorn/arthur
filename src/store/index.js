@@ -46,6 +46,13 @@ export const store = new Vuex.Store({
       commit(UPDATE_SAVED, saved)
       commit(UPDATE_TODAY, today)
     },
+    recommendItem ({ commit, state }, index) {
+      var saved = state.saved
+      var recommended = state.recommended
+      recommended.push(saved.splice(index, 1)[0])
+      commit(UPDATE_SAVED, saved)
+      commit(UPDATE_RECOMMENDED, recommended)
+    },
     showPopup ({ commit, state }, data) {
       commit(SHOW_POPUP, data)
     },

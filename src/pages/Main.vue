@@ -59,7 +59,7 @@
           </md-list>
           <md-card-actions>
             <md-button>Save</md-button>
-            <md-button>Recommend</md-button>
+            <md-button @click="recommend(0)">Recommend</md-button>
             <md-button class="md-primary">Visit</md-button>
           </md-card-actions>
         </md-card>
@@ -79,6 +79,10 @@ export default {
     },
     card () {
       return this.$store.state.current
+    },
+    recommend (index) {
+      this.$store.dispatch('hidePopup')
+      this.$store.dispatch('recommendItem', index)
     },
     title () {
       var title = ''
@@ -170,7 +174,7 @@ header {
   h1 {
     display: block;
     font-size: 40px;
-    margin: 0 auto;
+    margin: 8px auto 0;
   }
 }
 

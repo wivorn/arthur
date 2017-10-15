@@ -89,13 +89,56 @@
               </md-card-header>
             </div>
             <md-card-actions v-if="card.type !== 'video'">
-              <md-button class="later"><md-icon>drafts</md-icon> Read Now</md-button>
+              <md-button class="later"><a :href="card.url"><md-icon>drafts</md-icon> Read Now</a></md-button>
             </md-card-actions>
             <md-ink-ripple v-if="card.type !== 'video'"></md-ink-ripple>
           </md-card>
         </transition-group>
       </md-tab>
       <md-tab id="recommend" md-label="Recommend">
+        <transition-group name="list">
+          <md-card v-for="(card, index) in this.cardsRecommended" :key="card.name" md-with-hover>
+            <div class="video-card" v-if="card.type === 'video'">
+              <youtube class="video" :video-id="getYoutubeId(card.url)" player-width="640px"></youtube>
+              <div class="avatar-list">
+                <md-avatar>
+                  <img src="https://randomuser.me/api/portraits/med/men/1.jpg" alt="Avatar">
+                </md-avatar>
+                <md-avatar>
+                  <img src="https://randomuser.me/api/portraits/med/women/12.jpg" alt="Avatar">
+                </md-avatar>
+                <md-avatar>
+                  <img src="https://randomuser.me/api/portraits/med/men/18.jpg" alt="Avatar">
+                </md-avatar>
+                <md-avatar>
+                  <img src="https://randomuser.me/api/portraits/med/women/23.jpg" alt="Avatar">
+                </md-avatar>
+                <span>+18 Others</span>
+                <md-button class="md-icon-button">
+                  <md-icon>drafts</md-icon>
+                </md-button>
+              </div>
+            </div>
+            <md-card-media v-if="card.type !== 'video'" :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}" @click="readNow(index, card)"></md-card-media>
+            <div class="column" v-if="card.type !== 'video'">
+              <md-card-header>
+                <md-card-header-text>
+                  <div class="md-title">{{ card.name }}</div>
+                  <span v-for="review in card.reviews" :key="review">
+                    <md-avatar>
+                      <img :src="randomAvatar()" alt="Avatar">
+                    </md-avatar>
+                  </span>
+                </md-card-header-text>
+              </md-card-header>
+            </div>
+            <md-card-actions v-if="card.type !== 'video'">
+              <md-button class="later"><md-icon>share</md-icon> Share</md-button>
+              <md-button class="later"><a :href="card.url"><md-icon>drafts</md-icon> Visit</a></md-button>
+            </md-card-actions>
+            <md-ink-ripple v-if="card.type !== 'video'"></md-ink-ripple>
+          </md-card>
+        </transition-group>
       </md-tab>
     </md-tabs>
   </div>
@@ -127,6 +170,9 @@ export default {
     },
     cardsSaved () {
       return this.$store.state.saved
+    },
+    cardsRecommended () {
+      return this.$store.state.recommended
     }
   }
 }
