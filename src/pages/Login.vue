@@ -58,6 +58,7 @@ export default {
     },
     signup () {
       console.log('signup')
+      router.push('you')
     }
   }
 }
