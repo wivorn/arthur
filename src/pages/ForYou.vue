@@ -4,9 +4,11 @@
       <h1>For You</h1>
     </header>
     <md-tabs md-fixed class="md-transparent">
-      <md-tab id="personal" md-label="Personal">
+      <md-tab id="newest" md-label="Newest">
       </md-tab>
-      <md-tab id="recommended" md-label="Recommended">
+      <md-tab id="personal" md-label="Saved">
+      </md-tab>
+      <md-tab id="recommend" md-label="Recommend">
       </md-tab>
     </md-tabs>
   </div>
