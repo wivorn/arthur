@@ -6,8 +6,10 @@ import Vuefire from 'vuefire'
 import App from './App'
 import router from './router'
 import firebase from './service/firebase'
+import VueYouTubeEmbed from 'vue-youtube-embed'
 
 Vue.config.productionTip = false
+Vue.use(VueYouTubeEmbed)
 Vue.use(VueMaterial)
 Vue.use(Vuefire)
 Vue.material.registerTheme('default', {
