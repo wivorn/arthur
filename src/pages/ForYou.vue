@@ -20,13 +20,15 @@
                   <img src="https://randomuser.me/api/portraits/med/women/23.jpg" alt="Avatar">
                 </md-avatar>
                 <span>+18 Others</span>
-                <md-button class="md-icon-button" @click="readLater(index)">
-                  <md-icon>turned_in</md-icon>
-                </md-button>
+                <div class="icons">
+                  <md-button class="md-icon-button" @click="readLater(index)">
+                    <md-icon>turned_in</md-icon>
+                  </md-button>
+                </div>
               </div>
             </div>
-            <md-card-media v-if="card.type !== 'video'" :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}"></md-card-media>
-            <div class="column" v-if="card.type !== 'video'">
+            <md-card-media v-if="card.type !== 'video'" :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}" @click="readNow(index, card)"></md-card-media>
+            <div class="column" v-if="card.type !== 'video'" @click="readNow(index, card)">
               <md-card-header>
                 <md-card-header-text>
                   <div class="md-title">{{ card.name }}</div>
@@ -43,7 +45,7 @@
                 <md-icon>turned_in</md-icon>
               </md-button>
               <md-button class="later" @click="readLater(index)"><md-icon>turned_in</md-icon> Read Later</md-button>
-              <md-button class="later"><md-icon>drafts</md-icon> Read Now</md-button>
+              <md-button class="later"><a :href="card.url"><md-icon>drafts</md-icon> Read Now</a></md-button>
             </md-card-actions>
             <md-ink-ripple v-if="card.type !== 'video'"></md-ink-ripple>
           </md-card>
@@ -73,8 +75,8 @@
                 </md-button>
               </div>
             </div>
-            <md-card-media v-if="card.type !== 'video'" :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}"></md-card-media>
-            <div class="column" v-if="card.type !== 'video'">
+            <md-card-media v-if="card.type !== 'video'" :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}" @click="readNow(index, card)"></md-card-media>
+            <div class="column" v-if="card.type !== 'video'" @click="readNow(index, card)">
               <md-card-header>
                 <md-card-header-text>
                   <div class="md-title">{{ card.name }}</div>
@@ -114,6 +116,9 @@ export default {
     },
     readLater (index) {
       this.$store.dispatch('saveItem', index)
+    },
+    readNow (index, data) {
+      this.$store.dispatch('showPopup', data)
     }
   },
   computed: {
@@ -128,5 +133,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+.md-button {
+  a {
+    text-decoration: none !important;
+    color: #2c3e50 !important;
+  }
+}
 </style>

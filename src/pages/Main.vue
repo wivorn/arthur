@@ -11,6 +11,60 @@
       <md-bottom-bar-item md-icon="spa" :md-active="this.$route.path === '/service'" @click="navigate('service')">Services</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="face" :md-active="this.$route.path === '/settings'" @click="navigate('settings')">Profile</md-bottom-bar-item>
     </md-bottom-bar>
+    <transition name="fade">
+      <div class="popup" v-show="popup">
+        <md-button class="close md-fab md-primary md-mini" @click="close"><md-icon>close</md-icon></md-button>
+        <md-card>
+          <md-card-media :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}"></md-card-media>
+          <md-card-header>
+            <md-card-header-text>
+              <div class="md-title">{{ card.name }}</div>
+              <div class="md-subhead">{{ card.description }}</div>
+            </md-card-header-text>
+          </md-card-header>
+          <md-list class="custom-list md-triple-line">
+            <md-list-item>
+              <md-avatar>
+                <img src="https://placeimg.com/40/40/people/1" alt="People">
+              </md-avatar>
+
+              <div class="md-list-text-container">
+                <span>Ali Connors</span>
+                <p>Really good read, highly recommend</p>
+              </div>
+
+              <md-button class="md-icon-button md-list-action">
+                <md-icon>sms</md-icon>
+              </md-button>
+
+              <md-divider class="md-inset"></md-divider>
+            </md-list-item>
+
+            <md-list-item>
+              <md-avatar>
+                <img src="https://placeimg.com/40/40/people/6" alt="People">
+              </md-avatar>
+
+              <div class="md-list-text-container">
+                <span>Jennifer</span>
+                <p>I find it really helpful for managing my pain</p>
+              </div>
+
+              <md-button class="md-icon-button md-list-action">
+                <md-icon>sms</md-icon>
+              </md-button>
+
+              <md-divider class="md-inset"></md-divider>
+            </md-list-item>
+          </md-list>
+          <md-card-actions>
+            <md-button>Save</md-button>
+            <md-button>Recommend</md-button>
+            <md-button class="md-primary">Visit</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </transition>
   </main>
 </template>
 
@@ -19,11 +73,13 @@ import router from '../router'
 
 export default {
   name: 'Main',
-  data () {
-    return {
-    }
-  },
   computed: {
+    popup () {
+      return this.$store.state.popup
+    },
+    card () {
+      return this.$store.state.current
+    },
     title () {
       var title = ''
       /* eslint brace-style: ["error", "stroustrup"] */
@@ -42,13 +98,15 @@ export default {
       else if (this.$route.path === '/settings') {
         title = 'Profile'
       }
-
       return title
     }
   },
   methods: {
     navigate (route) {
       router.push(route)
+    },
+    close () {
+      this.$store.dispatch('hidePopup')
     }
   }
 }
@@ -68,6 +126,38 @@ export default {
 
   .md-bottom-bar-item {
     min-width: 50px;
+  }
+
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.95);
+    z-index: 10;
+    padding: 24px;
+
+    .md-list-text-container > * {
+      overflow: initial;
+      white-space: normal;
+      line-height: 1.2;
+    }
+
+    .md-list-text-container span {
+      margin-bottom: 4px;
+    }
+
+    .close {
+      position: absolute;
+      z-index: 11;
+      top: 32px;
+      right: 32px;
+    }
+
+    .md-list {
+      background: white;
+    }
   }
 }
 
