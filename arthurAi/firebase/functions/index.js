@@ -55,7 +55,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_SERVICES_URL)
           .then((resp) => handleFindService(resp.data, parameters))
-          .catch((err) => sendResponse('failed find service'));
+          .catch((err) => sendResponse('Sorry, I could not find a service. 😟'));
       } else {
         sendResponse('You are not using google assistant.'); 
       }
@@ -64,7 +64,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_KNOWLEDGE_URL)
           .then((resp) => handleFindKnowledge(resp.data, parameters))
-          .catch((err) => sendResponse('find knowledge failed'));
+          .catch((err) => sendResponse('Sorry, I could not find that knowledge. 😟'));
       } else {
         sendResponse('You are not using google assistant.'); 
       }
@@ -73,7 +73,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       if (requestSource === googleAssistantRequest) {
         axios.get(FIREBASE_PRODUCTS_URL)
           .then((resp) => handleFindProducts(resp.data, parameters, request.body))
-          .catch((err) => sendResponse('find products failed'));
+          .catch((err) => sendResponse('Sorry, I could not find a product. 😟'));
       } else {
         sendResponse('You are not using google assistant.'); 
       }
@@ -185,10 +185,10 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     // build rich response
     let serviceResponse = app.buildRichResponse()
-      .addSimpleResponse(`I found you ${resource.name}`)
+      .addSimpleResponse(`${resource.name} has been recommended by Ari users.`)
       .addSuggestions(
         ['Suggestion Chip', 'Another Suggestion Chip'])
-      .addBasicCard(app.buildBasicCard(resource.description) 
+      .addBasicCard(app.buildBasicCard(`${resource.description}.  \n 5 Ari users have recommended this person. Read their reviews!`) 
         .setTitle(resource.name)
         .addButton('Visit', resource.url)
         .setImage(resource.imgUrl, 'Photo of physio'));
@@ -208,8 +208,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     // build rich response
     let knowledgeResponse = app.buildRichResponse()
-      .addSimpleResponse(`I found a ${resource.type}, it is called ${resource.name}`)
-      .addBasicCard(app.buildBasicCard(resource.description) 
+      .addSimpleResponse(`Ari users have found this ${resource.type} helpful, it is called ${resource.name}`)
+      .addBasicCard(app.buildBasicCard(`${resource.description}.  \n This ${resource.type} has been recommended 2 times by Ari users. See their Reviews!`) 
         .setTitle(resource.name)
         .addButton('Visit', resource.url)
         .setImage(resource.imgUrl, 'Check it out!'));
@@ -232,8 +232,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     console.log(resource);
     // build rich response
     let productResponse = app.buildRichResponse()
-      .addSimpleResponse(`I found this for you. It is called ${resource.name}`)
-      .addBasicCard(app.buildBasicCard(resource.description) 
+      .addSimpleResponse(`This product has received good recommendations. It is called ${resource.name}`)
+      .addBasicCard(app.buildBasicCard(`${resource.description}.  \n This product has been recommended by 3 user in the Ari Network. See their reviews!`) 
         .setTitle(resource.name)
         .addButton('Visit', resource.url)
         .setImage(resource.imgUrl, 'Check it out!'));
@@ -257,7 +257,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     // build rich response
     let productResponse = app.buildRichResponse()
-      .addSimpleResponse(`${resource.name} was recently reccomended!`)
+      .addSimpleResponse(`${resource.name} was recently recomended by an Ari user.`)
       .addBasicCard(app.buildBasicCard(resource.description) 
         .setTitle(resource.name)
         .addButton('Visit', resource.url)
