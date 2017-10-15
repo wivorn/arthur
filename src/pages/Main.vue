@@ -8,7 +8,7 @@
       <md-bottom-bar-item md-icon="favorite" :md-active="this.$route.path === '/you'" @click="navigate('you')">You</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="school" :md-active="this.$route.path === '/learn'" @click="navigate('learn')">Learn</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="shopping_cart" :md-active="this.$route.path === '/shop'" @click="navigate('shop')">Shop</md-bottom-bar-item>
-      <md-bottom-bar-item md-icon="spa" :md-active="this.$route.path === '/service'" @click="navigate('service')">Service</md-bottom-bar-item>
+      <md-bottom-bar-item md-icon="spa" :md-active="this.$route.path === '/service'" @click="navigate('service')">Services</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="face" :md-active="this.$route.path === '/settings'" @click="navigate('settings')">Profile</md-bottom-bar-item>
     </md-bottom-bar>
   </main>
@@ -37,7 +37,7 @@ export default {
         title = 'Shop'
       }
       else if (this.$route.path === '/service') {
-        title = 'Service'
+        title = 'Services'
       }
       else if (this.$route.path === '/settings') {
         title = 'Profile'
@@ -183,7 +183,7 @@ header {
       min-height: auto;
 
       .md-card-media {
-        flex: 0 0 150px;
+        flex: 0 0 180px;
         background-size: cover;
       }
 
@@ -213,15 +213,20 @@ header {
     padding: 16px;
     overflow: auto;
     bottom: 0;
-  }
-}
 
-.list-enter-active, .list-leave-active {
-  transition: all 1s;
-}
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(30px);
+    .md-card {
+      transition: all 0.8s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+      opacity: 0;
+      transform: translate3d(-30px, 0, 0);
+    }
+    .list-leave-active {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+    }
+  }
 }
 
 .fade-enter-active, .fade-leave-active {
