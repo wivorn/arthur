@@ -1,7 +1,35 @@
 <template>
   <div id="shop">
-    <h1>Shop</h1>
-    This is a shop
+    <header>
+      <h1>Shop</h1>
+    </header>
+    <md-tabs md-fixed class="md-transparent">
+      <md-tab id="newest" md-label="Newest">
+        <md-card v-for="card in this.$root.products">
+          <md-card-media :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}">
+          </md-card-media>
+          <div class="column">
+            <md-card-header>
+              <md-card-header-text class="md-title">{{ card.name }}</md-card-header-text>
+            </md-card-header>
+          </div>
+        </md-card>
+      </md-tab>
+      <md-tab id="popular" md-label="Popular">
+        <md-card v-for="card in this.$root.products">
+          <md-card-header>
+            <md-card-header-text class="md-title">{{ card.name }}</md-card-header-text>
+          </md-card-header>
+        </md-card>
+      </md-tab>
+      <md-tab id="suggestion" md-label="Suggestion">
+        <md-card v-for="card in this.$root.products">
+          <md-card-header>
+            <md-card-header-text class="md-title">{{ card.name }}</md-card-header-text>
+          </md-card-header>
+        </md-card>
+      </md-tab>
+    </md-tabs>
   </div>
 </template>
 

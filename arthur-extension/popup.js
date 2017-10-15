@@ -31,20 +31,9 @@ function getRecommendStatus(url, callback) {
   });
 }
 
-function getRecommendedItems(callback) {
+function getRecommendedItems() {
   console.log('popup.js - getRecommendedItems()');
   chrome.storage.sync.get(null, (items) => {
-    callback(items);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('popup.js - DOMContentLoaded');
-  // document.getElementById('arthurRecommendBtn').addEventListener('onclick', recommend());
-
-  var container = document.getElementById('container');
-  // Load the recommended pages
-  getRecommendedItems(function(items) {
     console.log('popup.js - getRecommendedItems - callback');
     for (var key in items) {
       var itemP = document.createElement("p");
@@ -52,7 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
       container.appendChild(itemP);
     }
   });
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('popup.js - DOMContentLoaded');
+
+  var container = document.getElementById('container');
+  // Load the recommended pages
+  getRecommendedItems();
+
+  document.getElementById('arthurRecommendBtn').addEventListener('onclick', recommend);
   // getCurrentTabUrl((url) => {
   //   getRecommendStatus(url, function(item) {
   //     var itemDiv = document.createElement("p");

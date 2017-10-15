@@ -1,7 +1,14 @@
 <template>
   <div id="settings">
-    <h1>Settings</h1>
-    This is a settings page
+    <header>
+      <h1>Settings</h1>
+    </header>
+    <md-tabs md-fixed class="md-transparent">
+      <md-tab id="account" md-label="Account">
+      </md-tab>
+      <md-tab id="privacy" md-label="Privacy">
+      </md-tab>
+    </md-tabs>
   </div>
 </template>
 

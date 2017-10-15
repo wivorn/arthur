@@ -12,6 +12,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Alex+Brush');
 @import '../node_modules/vue-material/dist/vue-material.css';
 
 body {
@@ -24,7 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background: #F6F6F6;
+  background: #F9F9F9;
   height: 100%;
 
   button {
