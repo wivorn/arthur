@@ -1,8 +1,5 @@
 <template>
-  <div id="settings">
-    <header>
-      <h1>Settings</h1>
-    </header>
+  <div id="settings" class="container">
     <md-tabs md-fixed class="md-transparent">
       <md-tab id="account" md-label="Account">
       </md-tab>

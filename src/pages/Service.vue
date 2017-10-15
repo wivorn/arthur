@@ -1,10 +1,7 @@
 <template>
-  <div id="service">
-    <header>
-      <h1>Service</h1>
-    </header>
+  <div id="service" class="container">
     <md-tabs md-fixed class="md-transparent">
-      <md-tab id="newest" md-label="Newest">
+      <md-tab id="newest" md-label="Today">
         <transition-group name="list">
           <md-card v-for="card in this.$root.services" :key="card">
             <md-card-media :style="{ backgroundImage: 'url(' + card.imgUrl + ')'}">

@@ -13,6 +13,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/', redirect: '/login'
+    },
+    {
       path: '/login',
       name: 'Login',
       component: Login
@@ -48,9 +51,6 @@ export default new Router({
           component: Settings
         }
       ]
-    },
-    {
-      path: '*', redirect: '/login'
     }
   ]
 })

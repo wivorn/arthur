@@ -5,6 +5,7 @@ import VueMaterial from 'vue-material'
 import Vuefire from 'vuefire'
 import App from './App'
 import router from './router'
+import { store } from './store'
 import firebase from './service/firebase'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 
@@ -27,6 +28,7 @@ new Vue({
     products: firebase.database.ref('resources/products'),
     services: firebase.database.ref('resources/services')
   },
+  store,
   router,
   template: '<App/>',
   components: { App }
