@@ -127,6 +127,10 @@ header {
       width: 100%;
       padding-bottom: calc(56.25% + 60px);
       height: 0;
+
+      .md-icon {
+        color: rgba(0, 0, 0, .54);
+      }
     }
 
     .avatar-list {
