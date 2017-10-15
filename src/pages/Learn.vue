@@ -156,7 +156,9 @@ export default {
     popular () {
       var test = this.$root.knowledge.slice()
       return test.sort(function (a, b) {
-        return b.reviews.length - a.reviews.length
+        var bLength = b.reviews === undefined ? 1 : b.reviews.length
+        var aLength = a.reviews === undefined ? 1 : a.reviews.length
+        return bLength - aLength
       })
     }
   },
