@@ -12,6 +12,7 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Alex+Brush');
 @import '../node_modules/vue-material/dist/vue-material.css';
 
 body {

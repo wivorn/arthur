@@ -1,7 +1,8 @@
 <template>
   <div id="login">
     <div class="login-card">
-      <div class="logo"></div>
+      <div class="logo">Ari</div>
+      <p>Live Your Life</p>
       <transition name="fade" mode="out-in">
         <div v-if="loginActive" key="login">
           <md-input-container>
@@ -97,12 +98,18 @@ export default {
   }
 
   .logo {
+    font-family: 'Alex Brush', cursive;
+    font-size: 64px;
     display: block;
-    width: 80px;
-    height: 80px;
-    background: #ccc;
-    border-radius: 40px;
-    margin: 0 auto 48px;
+    border-radius: 50%;
+    margin: 48px auto 0;
+    color: #F2453E;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 24px 0 36px;
+    color: #666666;
   }
 
   form {
