@@ -5,6 +5,8 @@
       <p>Live Your Life</p>
       <transition name="fade" mode="out-in">
         <div v-if="loginActive" key="login">
+          <md-button class="md-raised button--login button--facebook">Facebook Login</md-button>
+          <div>OR</div>
           <md-input-container>
             <label>E-mail</label>
             <md-input type="email"></md-input>
@@ -129,6 +131,11 @@ export default {
     width: 100%;
     height: 45px;
     margin: 0 auto 20px;
+  }
+
+  .button--facebook {
+    background: #4469AF;
+    color: white;
   }
 
   .button--signup {

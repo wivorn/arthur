@@ -2,6 +2,9 @@
   <main id="main">
     <header>
       <h1>{{ this.title }}</h1>
+      <md-button class="md-icon-button md-raised md-accent md-primary" @click="popupSearch = true">
+        <md-icon>search</md-icon>
+      </md-button>
     </header>
     <router-view></router-view>
     <md-bottom-bar>
@@ -11,6 +14,20 @@
       <md-bottom-bar-item md-icon="spa" :md-active="this.$route.path === '/service'" @click="navigate('service')">Services</md-bottom-bar-item>
       <md-bottom-bar-item md-icon="face" :md-active="this.$route.path === '/settings'" @click="navigate('settings')">Profile</md-bottom-bar-item>
     </md-bottom-bar>
+    <transition name="fade">
+      <div class="popup search-popup" v-show="popupSearch">
+        <md-button class="close md-fab md-primary md-mini" @click="popupSearch = false"><md-icon>close</md-icon></md-button>
+        <div class="popup-container">
+          <md-input-container md-inline>
+            <label>Search</label>
+            <md-input></md-input>
+          </md-input-container>
+          <div class="tag-list">
+            <md-button class="md-raised md-primary" v-for="item in list">{{ item }}</md-button>
+          </div>
+        </div>
+      </div>
+    </transition>
     <transition name="fade">
       <div class="popup" v-show="popup">
         <md-button class="close md-fab md-primary md-mini" @click="close"><md-icon>close</md-icon></md-button>
@@ -27,29 +44,23 @@
               <md-avatar>
                 <img src="https://placeimg.com/40/40/people/1" alt="People">
               </md-avatar>
-
               <div class="md-list-text-container">
                 <span>Ali Connors</span>
                 <p>Really good read, highly recommend</p>
               </div>
-
               <md-button class="md-icon-button md-list-action">
                 <md-icon>sms</md-icon>
               </md-button>
-
               <md-divider class="md-inset"></md-divider>
             </md-list-item>
-
             <md-list-item>
               <md-avatar>
                 <img src="https://placeimg.com/40/40/people/6" alt="People">
               </md-avatar>
-
               <div class="md-list-text-container">
                 <span>Jennifer</span>
                 <p>I find it really helpful for managing my pain</p>
               </div>
-
               <md-button class="md-icon-button md-list-action">
                 <md-icon>sms</md-icon>
               </md-button>
@@ -73,6 +84,12 @@ import router from '../router'
 
 export default {
   name: 'Main',
+  data () {
+    return {
+      popupSearch: false,
+      list: ['Daily Living', 'Patient Support Program', 'Physiotherapist', 'Workplace', 'Exercises', 'Diets']
+    }
+  },
   computed: {
     popup () {
       return this.$store.state.popup
@@ -163,6 +180,36 @@ export default {
       background: white;
     }
   }
+
+  .search-popup {
+    background: rgba(255,255,255,.97);
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+
+      .md-button {
+        flex: 1 0 auto;
+        margin: 8px;
+      }
+    }
+
+    .close {
+      position: absolute;
+      z-index: 11;
+      top: 16px;
+      right: 16px;
+    }
+
+    .md-input-container {
+      label {
+        font-size: 24px;
+      }
+      input {
+        font-size: 24px;
+      }
+    }
+  }
 }
 
 header {
@@ -172,9 +219,14 @@ header {
   background: white;
 
   h1 {
-    display: block;
+    display: inline-block;
     font-size: 40px;
     margin: 8px auto 0;
+  }
+
+  .md-button.md-icon-button {
+    display: inline-block;
+    float: right;
   }
 }
 
@@ -196,6 +248,11 @@ header {
     margin-bottom: 16px;
     cursor: pointer;
     min-height: 100px;
+    box-shadow: 0 2px 5px rgba(216, 223, 216, 0.5), 0 2px 2px rgba(216, 223, 216, 0.3), 0 3px 1px -2px rgba(216, 223, 216, 0.2);
+
+    &:hover {
+      box-shadow: 0 5px 5px -3px rgba(216, 223, 216, 0.5), 0 8px 10px 1px rgba(216, 223, 216, 0.3), 0 3px 14px 2px rgba(216, 223, 216, 0.2);
+    }
 
     .video-card {
       position: relative;
@@ -309,11 +366,16 @@ header {
     bottom: 0;
 
     .md-card {
-      transition: all 0.8s;
+      transition: all 0.6s;
+      will-change: transform;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      transform-origin: bottom;
     }
     .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
       opacity: 0;
-      transform: translate3d(-30px, 0, 0);
+      transform: scale(0.6);
     }
     .list-leave-active {
       position: absolute;
