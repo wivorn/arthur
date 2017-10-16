@@ -61,9 +61,6 @@
                 <span>Jennifer</span>
                 <p>I find it really helpful for managing my pain</p>
               </div>
-              <md-button class="md-icon-button md-list-action">
-                <md-icon>sms</md-icon>
-              </md-button>
 
               <md-divider class="md-inset"></md-divider>
             </md-list-item>
